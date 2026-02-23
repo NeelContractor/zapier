@@ -1,4 +1,5 @@
 import { Router } from "express";
+// import { prisma } from "@repo/db"
 import { prisma } from "@repo/db";
 
 const router = Router();

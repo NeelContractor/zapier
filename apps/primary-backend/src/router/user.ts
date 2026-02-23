@@ -11,6 +11,8 @@ const router = Router();
 router.post("/signup", async (req, res) => {
     const body = req.body;
     const parsedData = SignupSchema.safeParse(body);
+    console.log(parsedData)
+    console.log(typeof(parsedData.data?.password))
 
     if (!parsedData.success) {
         console.log(parsedData.error);

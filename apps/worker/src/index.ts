@@ -1,4 +1,4 @@
-require('dotenv').config()
+import 'dotenv/config'
 
 import { prisma } from "@repo/db";
 import { JsonObject } from "@prisma/client/runtime/library";

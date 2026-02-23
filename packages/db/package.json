@@ -14,12 +14,15 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
+    "@prisma/adapter-pg": "^7.4.1",
+    "@prisma/client": "^7.4.1",
     "@types/node": "^22.19.11",
+    "dotenv": "^17.3.1",
+    "pg": "^8.18.0",
     "ts-node": "^10.9.2",
-    "typescritp": "^1.0.0",
-    "@prisma/client": "^7.4.1"
+    "typescritp": "^1.0.0"
   },
   "devDependencies": {
     "prisma": "^7.4.1"

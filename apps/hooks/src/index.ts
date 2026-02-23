@@ -1,5 +1,9 @@
 import express from "express"
+// import { prisma } from "@repo/db";
+// import { PrismaClient } from "@repo/db";
 import { prisma } from "@repo/db";
+
+// const prisma = new PrismaClient();
 
 const app = express();
 app.use(express.json());
