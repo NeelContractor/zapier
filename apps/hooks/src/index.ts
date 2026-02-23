@@ -1,10 +1,5 @@
-// /apps/hooks/src/index.ts
-
+import express from "express"
 import { prisma } from "@repo/db";
-// import { PrismaClient } from "@repo/db";
-import express from "express";
-
-// const client = new PrismaClient();
 
 const app = express();
 app.use(express.json());
@@ -23,7 +18,7 @@ app.post("/hooks/catch/:userId/:zapId", async (req, res) => {
                 zapId: zapId,
                 metadata: body
             }
-        });
+        });;
 
         await tx.zapRunOutbox.create({
             data: {
