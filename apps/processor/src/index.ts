@@ -1,4 +1,7 @@
+// processor index.ts
 // import { prisma } from "@repo/db"
+import 'dotenv/config'
+
 import { prisma } from "@repo/db";
 import { Kafka } from "kafkajs"
 
@@ -13,6 +16,15 @@ async function main() {
     const producer = kafka.producer();
     await producer.connect();
 
+    const shutdown = async () => {
+        await producer.disconnect();
+        await prisma.$disconnect();
+        process.exit(0);
+    };
+    
+    process.on('SIGTERM', shutdown);
+    process.on('SIGINT', shutdown); 
+
     while (1) {
         const pendingRows = await prisma.zapRunOutbox.findMany({
             where: {},
@@ -20,7 +32,7 @@ async function main() {
         })
         console.log(pendingRows);
 
-        producer.send({
+        await producer.send({
             topic: TOPIC_NAME,
             messages: pendingRows.map(r => {
                 return {

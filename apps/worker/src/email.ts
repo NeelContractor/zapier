@@ -1,3 +1,4 @@
+// worker email.ts
 import nodemailer from "nodemailer";
 // SOL_PRIVATE_KEY=""
 // SMTP_USERNAME=""

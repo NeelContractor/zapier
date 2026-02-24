@@ -1,4 +1,4 @@
-
+// worker solana.ts
 import { Keypair, LAMPORTS_PER_SOL, SystemProgram, Transaction, PublicKey, sendAndConfirmTransaction, Connection } from "@solana/web3.js";
 import base58 from "bs58";
 

@@ -1,4 +1,4 @@
-
+// /primary-backend/src/router/zap.ts
 import { Router } from "express";
 import { authMiddleware } from "../middleware";
 import { ZapCreateSchema } from "../types";
@@ -120,7 +120,43 @@ router.get("/:zapId", authMiddleware, async (req, res) => {
     return res.json({
         zap
     })
-
 })
+
+router.delete("/:zapId", authMiddleware, async (req, res) => {
+    // @ts-ignore
+    const userId = Number(req.id);
+    const zapId = Array.isArray(req.params.zapId)
+        ? req.params.zapId[0]
+        : req.params.zapId;
+
+    const zap = await prisma.zap.findFirst({
+        where: { id: zapId, userId }
+    });
+
+    if (!zap) {
+        return res.status(404).json({ message: "Zap not found" });
+    }
+
+    await prisma.$transaction(async tx => {
+        // Delete run outbox entries first
+        await tx.zapRunOutbox.deleteMany({
+            where: { zapRun: { zapId } }
+        });
+
+        // Delete zap runs
+        await tx.zapRun.deleteMany({
+            where: { zapId }
+        });
+
+        // Delete actions and trigger
+        await tx.action.deleteMany({ where: { zapId } });
+        await tx.trigger.deleteMany({ where: { zapId } });
+
+        // Finally delete the zap
+        await tx.zap.delete({ where: { id: zapId } });
+    });
+
+    return res.json({ message: "Zap deleted" });
+});
 
 export const zapRouter = router;

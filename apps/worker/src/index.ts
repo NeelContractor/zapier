@@ -1,3 +1,4 @@
+// worker index.ts
 import 'dotenv/config'
 
 import { prisma } from "@repo/db";
